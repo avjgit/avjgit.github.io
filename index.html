@@ -24,8 +24,8 @@
     </style>
     <script type="text/javascript">
         $(function(){
-            document.getElementById('run_fcfs').onclick = 
-            function () {
+            document.getElementById('run_fcfs').onclick = function () {
+                
 
                 // setTimeout(function(){hide("fcfs-running-p1")}, 2000);
                 // setTimeout(function(){show("fcfs-running-p1")}, 2000);
@@ -34,28 +34,36 @@
                 // setTimeout(function(){hide("fcfs-running-p3")}, 2000);
                 // setTimeout(function(){show("fcfs-running-p3")}, 2000);
 
-                hide("fcfs-running-p1");
-                show("fcfs-running-p1");
-                hide("fcfs-running-p2");
-                show("fcfs-running-p2");
-                hide("fcfs-running-p3");
-                show("fcfs-running-p3");
+                // show("fcfs-running-p1");
+                // hide("fcfs-running-p2");
+                // show("fcfs-running-p2");
+                // hide("fcfs-running-p3");
+                // show("fcfs-running-p3");
+                
+                    $("#fcfs-running-p1").delay(2000).fadeOut();
+                    $("#fcfs-running-p1").delay(2000).fadeIn();
+                    
+                    $("#fcfs-running-p2").delay(2000).fadeOut();
+                    $("#fcfs-running-p2").delay(2000).fadeIn();
+                    
+                    $("#fcfs-running-p3").delay(2000).fadeOut();
+                    $("#fcfs-running-p3").delay(2000).fadeIn();
             };
                     
-            function hide (elementId) {
-                document.getElementById(elementId).style.display = 'none';
-                sleepHack();
-            }
+            // function hide (elementId) {
+            //     document.getElementById(elementId).style.display = 'none';
+            //     sleepHack();
+            // }
                    
-            function show (elementId) {
-                document.getElementById(elementId).style.display = 'block';
-                sleepHack();
-            }
+            // function show (elementId) {
+            //     document.getElementById(elementId).style.display = 'block';
+            //     sleepHack();
+            // }
             
-            sleepHack(){
-                var ms += new Date().getTime();
-                while (new Date() < ms){};
-            }
+            // sleepHack(){
+            //     var ms += new Date().getTime();
+            //     while (new Date() < ms){};
+            // }
             
         });
     </script>
@@ -77,9 +85,9 @@
     
     <h1>First Come, First Served</h1>
     <ul>
-        <li><h4 class="label label-info">Jobs are executed on first come, first serve basis<h4></li>
-        <li><h4 class="label label-success">Easy to understand and implement<h4></li>
-        <li><h4 class="label label-warning">Poor in performance as average wait time is high<h4></li>
+        <li><h4 class="label label-info">Jobs are executed on first come, first serve basis</h4></li>
+        <li><h4 class="label label-success">Easy to understand and implement</h4></li>
+        <li><h4 class="label label-warning">Poor in performance as average wait time is high</h4></li>
     </ul>
     <button class="btn btn-default" id="run_fcfs">Show me</button>
     <div class="row">
