@@ -97,22 +97,40 @@
             document.getElementById('run_rr').onclick = function () {     
                 reset('.rr-ready', '.rr-action');
                 
-                //todo
+                var processes = [
+                    {name: "p1", length: p1Length(), left: p1Length()},
+                    {name: "p2", length: p2Length(), left: p2Length()},
+                    {name: "p3", length: p3Length(), left: p3Length()}
+                ];
                 
-                // hide("fcfs-ready-p1", 1);
-                // show("fcfs-running-p1", 1);
-                // hide("fcfs-running-p1", 2);
-                // show("fcfs-terminated-p1", 2);
-                
-                // hide("fcfs-ready-p2", 3);
-                // show("fcfs-running-p2", 3);
-                // hide("fcfs-running-p2", 4);
-                // show("fcfs-terminated-p2", 4);
-                
-                // hide("fcfs-ready-p3", 5);
-                // show("fcfs-running-p3", 5);
-                // hide("fcfs-running-p3", 6);
-                // show("fcfs-terminated-p3", 6);
+                var p;
+                var delay = 1;
+                var complete = 0;
+                var i = -1;
+                while (complete < 3) {
+                    i++;
+                    i = i % 3;
+                    p = processes[i].name;
+                    
+                    if (processes[i].left <= 0){
+                        continue;
+                    }
+                    
+                    hide("rr-ready-" + p, delay);
+                    show("rr-running-" + p, delay);
+                    hide("rr-running-" + p, delay+1);
+                    
+                    processes[i].left -= rrtime();
+                    
+                    if (processes[i].left > 0){
+                        show("rr-ready-" + p, delay+1);                        
+                    }
+                    else{
+                        show("rr-terminated-" + p, delay+1);                        
+                        complete++;
+                    }
+                    delay = delay+2;
+                }
             };
         });
     </script>
