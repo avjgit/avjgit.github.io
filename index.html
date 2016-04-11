@@ -25,7 +25,14 @@
     <script type="text/javascript">
         $(function(){
             document.getElementById('run_fcfs').onclick = 
-                function () { alert('Hi'); };
+                function () {
+                    setTimeout(function(){hide("fcfs-running-p1")}, 2000);
+                    setTimeout(function(){show("fcfs-running-p1")}, 2000);
+                    setTimeout(function(){hide("fcfs-running-p2")}, 2000);
+                    setTimeout(function(){show("fcfs-running-p2")}, 2000);
+                    setTimeout(function(){hide("fcfs-running-p3")}, 2000);
+                    setTimeout(function(){show("fcfs-running-p3")}, 2000);
+                };
                     
             function hide (elementId) {
                 document.getElementById(elementId).style.display = 'none';
@@ -35,15 +42,6 @@
                 document.getElementById(elementId).style.display = 'block';
             }
             
-            hide("fcfs-ready-p1");
-            sleep(2);
-            show("fcfs-ready-p1");
-            hide("fcfs-ready-p2");
-            sleep(2);
-            show("fcfs-ready-p2");
-            hide("fcfs-ready-p3");
-            sleep(2);
-            show("fcfs-ready-p3");
         });
     </script>
 </head>
