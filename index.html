@@ -250,5 +250,35 @@
         </div>
     </div>
     
+    <h1>Priority</h1>
+    <ul>
+        <li><h4 class="label label-info">Each process is assigned a priority. Process with highest priority is to be executed first and so on</h4></li>
+        <li><h4 class="label label-info">Processes with same priority are executed on first come first serve basis</h4></li>
+        <li><h4 class="label label-info">Priority can be decided based on memory requirements, time requirements or any other resource requirement</h4></li>
+    </ul>
+    <button class="btn btn-default" id="run_prio">Show me</button>
+    <div class="row">
+        <div class="col-md-3">Ready</div>
+        <div class="col-md-3">Running</div>
+        <div class="col-md-3">Terminated</div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="prio-ready process" id="prio-ready-p1">P1</div>
+            <div class="prio-ready process" id="prio-ready-p2">P2</div>
+            <div class="prio-ready process" id="prio-ready-p3">P3</div>
+        </div>
+        <div class="col-md-3">
+            <div class="prio-action process hidden" id="prio-running-p1">P1</div>
+            <div class="prio-action process hidden" id="prio-running-p2">P2</div>
+            <div class="prio-action process hidden" id="prio-running-p3">P3</div>
+        </div>
+        <div class="col-md-3">
+            <div class="prio-action process hidden" id="prio-terminated-p1">P1</div>
+            <div class="prio-action process hidden" id="prio-terminated-p2">P2</div>
+            <div class="prio-action process hidden" id="prio-terminated-p3">P3</div>
+        </div>
+    </div>
+    
 </body>
 </html>
