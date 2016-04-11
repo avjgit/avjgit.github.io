@@ -38,7 +38,6 @@
             }
             
             document.getElementById('run_fcfs').onclick = function () {     
-
                 hide("fcfs-ready-p1", 1);
                 show("fcfs-running-p1", 1);
                 hide("fcfs-running-p1", 2);
@@ -53,7 +52,46 @@
                 show("fcfs-running-p3", 5);
                 hide("fcfs-running-p3", 6);
                 show("fcfs-terminated-p3", 6);
+            };
+            
+            document.getElementById('run_sjf').onclick = function () {     
                 
+                //todo
+                
+                // hide("fcfs-ready-p1", 1);
+                // show("fcfs-running-p1", 1);
+                // hide("fcfs-running-p1", 2);
+                // show("fcfs-terminated-p1", 2);
+                
+                // hide("fcfs-ready-p2", 3);
+                // show("fcfs-running-p2", 3);
+                // hide("fcfs-running-p2", 4);
+                // show("fcfs-terminated-p2", 4);
+                
+                // hide("fcfs-ready-p3", 5);
+                // show("fcfs-running-p3", 5);
+                // hide("fcfs-running-p3", 6);
+                // show("fcfs-terminated-p3", 6);
+            };
+            
+            document.getElementById('run_rr').onclick = function () {     
+                
+                //todo
+                
+                // hide("fcfs-ready-p1", 1);
+                // show("fcfs-running-p1", 1);
+                // hide("fcfs-running-p1", 2);
+                // show("fcfs-terminated-p1", 2);
+                
+                // hide("fcfs-ready-p2", 3);
+                // show("fcfs-running-p2", 3);
+                // hide("fcfs-running-p2", 4);
+                // show("fcfs-terminated-p2", 4);
+                
+                // hide("fcfs-ready-p3", 5);
+                // show("fcfs-running-p3", 5);
+                // hide("fcfs-running-p3", 6);
+                // show("fcfs-terminated-p3", 6);
             };
         });
     </script>
@@ -102,5 +140,66 @@
             <div class="process hidden" id="fcfs-terminated-p3">P3</div>
         </div>
     </div>
+
+    <h1>Shortest Job First</h1>
+    <ul>
+        <li><h4 class="label label-success">Best approach to minimize waiting time</h4></li>
+        <li><h4 class="label label-info">Processer should know in advance how much time process will take - ...</h4></li>
+        <li><h4 class="label label-warning">... - can't really implement</h4></li>
+    </ul>
+    <button class="btn btn-default" id="run_sjf">Show me</button>
+    <div class="row">
+        <div class="col-md-3">Ready</div>
+        <div class="col-md-3">Running</div>
+        <div class="col-md-3">Terminated</div>
+    </div>
+    <div class="row">
+        <div class="col-md-3" id="sjf-ready">
+            <div class="process" id="sjf-ready-p1">P1</div>
+            <div class="process" id="sjf-ready-p2">P2</div>
+            <div class="process" id="sjf-ready-p3">P3</div>
+        </div>
+        <div class="col-md-3" id="sjf-running">
+            <div class="process hidden" id="sjf-running-p1">P1</div>
+            <div class="process hidden" id="sjf-running-p2">P2</div>
+            <div class="process hidden" id="sjf-running-p3">P3</div>
+        </div>
+        <div class="col-md-3" id="sjf-terminated">
+            <div class="process hidden" id="sjf-terminated-p1">P1</div>
+            <div class="process hidden" id="sjf-terminated-p2">P2</div>
+            <div class="process hidden" id="sjf-terminated-p3">P3</div>
+        </div>
+    </div>
+    
+    <h1>Round Robin</h1>
+    <ul>
+        <li><h4 class="label label-info">Each process is provided a fix time to execute called quantum</h4></li>
+        <li><h4 class="label label-info">Once a process is executed for given time period. Process is preempted and other process executes for given time period</h4></li>
+        <li><h4 class="label label-info">Context switching is used to save states of preempted processes</h4></li>
+    </ul>
+    <button class="btn btn-default" id="run_rr">Show me</button>
+    <div class="row">
+        <div class="col-md-3">Ready</div>
+        <div class="col-md-3">Running</div>
+        <div class="col-md-3">Terminated</div>
+    </div>
+    <div class="row">
+        <div class="col-md-3" id="rr-ready">
+            <div class="process" id="rr-ready-p1">P1</div>
+            <div class="process" id="rr-ready-p2">P2</div>
+            <div class="process" id="rr-ready-p3">P3</div>
+        </div>
+        <div class="col-md-3" id="rr-running">
+            <div class="process hidden" id="rr-running-p1">P1</div>
+            <div class="process hidden" id="rr-running-p2">P2</div>
+            <div class="process hidden" id="rr-running-p3">P3</div>
+        </div>
+        <div class="col-md-3" id="rr-terminated">
+            <div class="process hidden" id="rr-terminated-p1">P1</div>
+            <div class="process hidden" id="rr-terminated-p2">P2</div>
+            <div class="process hidden" id="rr-terminated-p3">P3</div>
+        </div>
+    </div>
+    
 </body>
 </html>
