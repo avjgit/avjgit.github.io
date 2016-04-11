@@ -26,6 +26,24 @@
         $(function(){
             document.getElementById('run_fcfs').onclick = 
                 function () { alert('Hi'); };
+                    
+            function hide (elementId) {
+                document.getElementById(elementId).style.display = 'none';
+            }
+                   
+            function show (elementId) {
+                document.getElementById(elementId).style.display = 'block';
+            }
+            
+            hide("fcfs-ready-p1");
+            sleep(2);
+            show("fcfs-ready-p1");
+            hide("fcfs-ready-p2");
+            sleep(2);
+            show("fcfs-ready-p2");
+            hide("fcfs-ready-p3");
+            sleep(2);
+            show("fcfs-ready-p3");
         });
     </script>
 </head>
