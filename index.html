@@ -36,13 +36,20 @@
                     $("#"+elementId).removeClass("hidden").addClass("visible");
                 }, delay * 1000);
             }
+            
+            function reset(show, hide){
+                $(show).removeClass("hidden").addClass("visible");
+                $(hide).removeClass("visible").addClass("hidden");
+            }
         
             function p1Length() { return document.getElementById('p1-length').value};
             function p2Length() { return document.getElementById('p2-length').value};
             function p3Length() { return document.getElementById('p3-length').value};
             function rrtime() {return document.getElementById('rr-time').value};
             
-            document.getElementById('run_fcfs').onclick = function () {     
+            document.getElementById('run_fcfs').onclick = function () {    
+                reset('.fcfs-ready', '.fcfs-action');
+                 
                 hide("fcfs-ready-p1", 1);
                 show("fcfs-running-p1", 1);
                 hide("fcfs-running-p1", 2);
@@ -60,6 +67,7 @@
             };
             
             document.getElementById('run_sjf').onclick = function () {     
+                reset('.sjf-ready', '.sjf-action');
                 
                 var processes = [
                     {name: "p1", length: p1Length()},
@@ -87,6 +95,7 @@
             };
             
             document.getElementById('run_rr').onclick = function () {     
+                reset('.rr-ready', '.rr-action');
                 
                 //todo
                 
@@ -136,20 +145,20 @@
         <div class="col-md-3">Terminated</div>
     </div>
     <div class="row">
-        <div class="col-md-3" id="fcfs-ready">
-            <div class="process" id="fcfs-ready-p1">P1</div>
-            <div class="process" id="fcfs-ready-p2">P2</div>
-            <div class="process" id="fcfs-ready-p3">P3</div>
+        <div class="col-md-3">
+            <div class="fcfs-ready process" id="fcfs-ready-p1">P1</div>
+            <div class="fcfs-ready process" id="fcfs-ready-p2">P2</div>
+            <div class="fcfs-ready process" id="fcfs-ready-p3">P3</div>
         </div>
-        <div class="col-md-3" id="fcfs-running">
-            <div class="process hidden" id="fcfs-running-p1">P1</div>
-            <div class="process hidden" id="fcfs-running-p2">P2</div>
-            <div class="process hidden" id="fcfs-running-p3">P3</div>
+        <div class="col-md-3">
+            <div class="fcfs-action process hidden" id="fcfs-running-p1">P1</div>
+            <div class="fcfs-action process hidden" id="fcfs-running-p2">P2</div>
+            <div class="fcfs-action process hidden" id="fcfs-running-p3">P3</div>
         </div>
-        <div class="col-md-3" id="fcfs-terminated">
-            <div class="process hidden" id="fcfs-terminated-p1">P1</div>
-            <div class="process hidden" id="fcfs-terminated-p2">P2</div>
-            <div class="process hidden" id="fcfs-terminated-p3">P3</div>
+        <div class="col-md-3">
+            <div class="fcfs-action process hidden" id="fcfs-terminated-p1">P1</div>
+            <div class="fcfs-action process hidden" id="fcfs-terminated-p2">P2</div>
+            <div class="fcfs-action process hidden" id="fcfs-terminated-p3">P3</div>
         </div>
     </div>
 
@@ -166,20 +175,20 @@
         <div class="col-md-3">Terminated</div>
     </div>
     <div class="row">
-        <div class="col-md-3" id="sjf-ready">
-            <div class="process" id="sjf-ready-p1">P1</div>
-            <div class="process" id="sjf-ready-p2">P2</div>
-            <div class="process" id="sjf-ready-p3">P3</div>
+        <div class="col-md-3">
+            <div class="sjf-ready process" id="sjf-ready-p1">P1</div>
+            <div class="sjf-ready process" id="sjf-ready-p2">P2</div>
+            <div class="sjf-ready process" id="sjf-ready-p3">P3</div>
         </div>
-        <div class="col-md-3" id="sjf-running">
-            <div class="process hidden" id="sjf-running-p1">P1</div>
-            <div class="process hidden" id="sjf-running-p2">P2</div>
-            <div class="process hidden" id="sjf-running-p3">P3</div>
+        <div class="col-md-3">
+            <div class="sjf-action process hidden" id="sjf-running-p1">P1</div>
+            <div class="sjf-action process hidden" id="sjf-running-p2">P2</div>
+            <div class="sjf-action process hidden" id="sjf-running-p3">P3</div>
         </div>
-        <div class="col-md-3" id="sjf-terminated">
-            <div class="process hidden" id="sjf-terminated-p1">P1</div>
-            <div class="process hidden" id="sjf-terminated-p2">P2</div>
-            <div class="process hidden" id="sjf-terminated-p3">P3</div>
+        <div class="col-md-3">
+            <div class="sjf-action process hidden" id="sjf-terminated-p1">P1</div>
+            <div class="sjf-action process hidden" id="sjf-terminated-p2">P2</div>
+            <div class="sjf-action process hidden" id="sjf-terminated-p3">P3</div>
         </div>
     </div>
     
@@ -196,20 +205,20 @@
         <div class="col-md-3">Terminated</div>
     </div>
     <div class="row">
-        <div class="col-md-3" id="rr-ready">
-            <div class="process" id="rr-ready-p1">P1</div>
-            <div class="process" id="rr-ready-p2">P2</div>
-            <div class="process" id="rr-ready-p3">P3</div>
+        <div class="col-md-3">
+            <div class="rr-ready process" id="rr-ready-p1">P1</div>
+            <div class="rr-ready process" id="rr-ready-p2">P2</div>
+            <div class="rr-ready process" id="rr-ready-p3">P3</div>
         </div>
-        <div class="col-md-3" id="rr-running">
-            <div class="process hidden" id="rr-running-p1">P1</div>
-            <div class="process hidden" id="rr-running-p2">P2</div>
-            <div class="process hidden" id="rr-running-p3">P3</div>
+        <div class="col-md-3">
+            <div class="rr-action process hidden" id="rr-running-p1">P1</div>
+            <div class="rr-action process hidden" id="rr-running-p2">P2</div>
+            <div class="rr-action process hidden" id="rr-running-p3">P3</div>
         </div>
-        <div class="col-md-3" id="rr-terminated">
-            <div class="process hidden" id="rr-terminated-p1">P1</div>
-            <div class="process hidden" id="rr-terminated-p2">P2</div>
-            <div class="process hidden" id="rr-terminated-p3">P3</div>
+        <div class="col-md-3">
+            <div class="rr-action process hidden" id="rr-terminated-p1">P1</div>
+            <div class="rr-action process hidden" id="rr-terminated-p2">P2</div>
+            <div class="rr-action process hidden" id="rr-terminated-p3">P3</div>
         </div>
     </div>
     
