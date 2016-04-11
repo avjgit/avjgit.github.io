@@ -36,6 +36,11 @@
                     $("#"+elementId).removeClass("hidden").addClass("visible");
                 }, delay * 1000);
             }
+        
+            function p1Length() { return document.getElementById('p1-length').value};
+            function p2Length() { return document.getElementById('p2-length').value};
+            function p3Length() { return document.getElementById('p3-length').value};
+            function rrtime() {return document.getElementById('rr-time').value};
             
             document.getElementById('run_fcfs').onclick = function () {     
                 hide("fcfs-ready-p1", 1);
@@ -55,6 +60,7 @@
             };
             
             document.getElementById('run_sjf').onclick = function () {     
+                alert(rrtime());
                 
                 //todo
                 
