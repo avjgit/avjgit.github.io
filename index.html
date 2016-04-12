@@ -44,9 +44,10 @@
                 }, delay * 1000);
             }
             
-            function reset(show, hide){
+            function reset(show, hide, log){
                 $(show).removeClass("hidden").addClass("visible");
                 $(hide).removeClass("visible").addClass("hidden");
+                $(log).empty();
             }
 
             function insert_ready_log(algorithm, process, time, delay) {
@@ -90,7 +91,7 @@
             function rrtime() {return document.getElementById('rr-time').value};
             
             document.getElementById('run_fcfs').onclick = function () {    
-                reset('.fcfs-ready', '.fcfs-action');
+                reset('.fcfs-ready', '.fcfs-action', '#log1');
 
                 var p1_length = parseInt(p1Length(), 10);
                 var p2_length = parseInt(p2Length(), 10);
@@ -124,7 +125,7 @@
             };
             
             document.getElementById('run_sjf').onclick = function () {     
-                reset('.sjf-ready', '.sjf-action');
+                reset('.sjf-ready', '.sjf-action', '#log2');
                 
                 var processes = [
                     {name: "p1", length: parseInt(p1Length(), 10)},
@@ -156,7 +157,7 @@
             };
             
             document.getElementById('run_rr').onclick = function () {     
-                reset('.rr-ready', '.rr-action');
+                reset('.rr-ready', '.rr-action', '#log3');
                 
                 var processes = [
                     {name: "p1", length: parseInt(p1Length(), 10), left: p1Length()},
@@ -201,7 +202,7 @@
             };
                         
             document.getElementById('run_prio').onclick = function () {     
-                reset('.prio-ready', '.prio-action');
+                reset('.prio-ready', '.prio-action', '#log4');
                 
                 var processes = [
                     {name: "p1", priority: p1Prio(), length: parseInt(p1Length(), 10)},
