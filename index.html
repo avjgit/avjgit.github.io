@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CPU Scheduling</title>
+    <title>CPU scheduling</title>
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
@@ -16,10 +16,17 @@
     crossorigin="anonymous"></script>
     <style>
         .process {
-            width: 60px;
-            height: 30px;
-            margin-right: 5px;
-            background-color: aqua;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-radius: 3px;
+            background-color: #EAE7E7;
+        }
+
+        .algorithm {
+            height: 350px;
         }
     </style>
     <script type="text/javascript">
@@ -41,6 +48,36 @@
                 $(show).removeClass("hidden").addClass("visible");
                 $(hide).removeClass("visible").addClass("hidden");
             }
+
+            function insert_ready_log(algorithm, process, time, delay) {
+                var log = "#log" + algorithm;
+                var p = 'P3';
+                if (process == 'p1') p = 'P1';
+                else if (process == 'p2') p = 'P2';
+                setTimeout(function(){
+                    $(log).append('<div><b>' + 't = ' + time + ':</b> ' + p + ' quantum time ended. Process is ready. </div>');
+                }, delay * 1000);
+            }
+
+            function insert_running_log(algorithm, process, time, delay) {
+                var log = "#log" + algorithm;
+                var p = 'P3';
+                if (process == 'p1') p = 'P1';
+                else if (process == 'p2') p = 'P2';
+                setTimeout(function(){
+                    $(log).append('<div><b>' + 't = ' + time + ':</b> ' + p + ' is running. </div>');
+                }, delay * 1000);
+            }
+
+            function insert_terminated_log(algorithm, process, time, delay) {
+                var log = "#log" + algorithm;
+                var p = 'P3';
+                if (process == 'p1') p = 'P1';
+                else if (process == 'p2') p = 'P2';
+                setTimeout(function(){
+                    $(log).append('<div><b>' + 't = ' + time + ':</b> ' + p + ' is terminated. </div>');
+                }, delay * 1000);
+            }
         
             function p1Length() { return document.getElementById('p1-length').value};
             function p2Length() { return document.getElementById('p2-length').value};
@@ -54,46 +91,65 @@
             
             document.getElementById('run_fcfs').onclick = function () {    
                 reset('.fcfs-ready', '.fcfs-action');
-                 
+
+                var p1_length = parseInt(p1Length(), 10);
+                var p2_length = parseInt(p2Length(), 10);
+                var p3_length = parseInt(p3Length(), 10);
+
+                var p_time = 0;
+
                 hide("fcfs-ready-p1", 1);
                 show("fcfs-running-p1", 1);
+                insert_running_log(1, 'p1', p_time, 1);
                 hide("fcfs-running-p1", 2);
                 show("fcfs-terminated-p1", 2);
+                p_time += p1_length;
+                insert_terminated_log(1, 'p1', p_time, 2);
                 
                 hide("fcfs-ready-p2", 3);
                 show("fcfs-running-p2", 3);
+                insert_running_log(1, 'p2', p_time, 3);
                 hide("fcfs-running-p2", 4);
                 show("fcfs-terminated-p2", 4);
+                p_time += p2_length;
+                insert_terminated_log(1, 'p2', p_time, 4);
                 
                 hide("fcfs-ready-p3", 5);
                 show("fcfs-running-p3", 5);
+                insert_running_log(1, 'p3', p_time, 5);
                 hide("fcfs-running-p3", 6);
                 show("fcfs-terminated-p3", 6);
+                p_time += p3_length;
+                insert_terminated_log(1, 'p3', p_time, 6);
             };
             
             document.getElementById('run_sjf').onclick = function () {     
                 reset('.sjf-ready', '.sjf-action');
                 
                 var processes = [
-                    {name: "p1", length: p1Length()},
-                    {name: "p2", length: p2Length()},
-                    {name: "p3", length: p3Length()}
+                    {name: "p1", length: parseInt(p1Length(), 10)},
+                    {name: "p2", length: parseInt(p2Length(), 10)},
+                    {name: "p3", length: parseInt(p3Length(), 10)}
                 ];
 
                 // ordering by shortest first
                 processes.sort(function(a, b){
                     return parseInt(a.length) - parseInt(b.length);
                 });
-                
+
                 var p;
+                var p_time = 0;
                 var delay = 1;
                 for (var i = 0; i < processes.length; i++) {
                     p = processes[i].name;
                     
                     hide("sjf-ready-" + p, delay);
                     show("sjf-running-" + p, delay);
+                    insert_running_log(2, p, p_time, delay);
                     hide("sjf-running-" + p, delay+1);
                     show("sjf-terminated-" + p, delay+1);
+                    p_time += processes[i].length;
+                    insert_terminated_log(2, p, p_time, delay+1);
                     
                     delay = delay+2;
                 }
@@ -103,12 +159,13 @@
                 reset('.rr-ready', '.rr-action');
                 
                 var processes = [
-                    {name: "p1", length: p1Length(), left: p1Length()},
-                    {name: "p2", length: p2Length(), left: p2Length()},
-                    {name: "p3", length: p3Length(), left: p3Length()}
+                    {name: "p1", length: parseInt(p1Length(), 10), left: p1Length()},
+                    {name: "p2", length: parseInt(p2Length(), 10), left: p2Length()},
+                    {name: "p3", length: parseInt(p3Length(), 10), left: p3Length()}
                 ];
                 
                 var p;
+                var p_time = 0;
                 var delay = 1;
                 var complete = 0;
                 var i = -1;
@@ -123,15 +180,20 @@
                     
                     hide("rr-ready-" + p, delay);
                     show("rr-running-" + p, delay);
+                    insert_running_log(3, p, p_time, delay);
                     hide("rr-running-" + p, delay+1);
-                    
+
                     processes[i].left -= rrtime();
                     
                     if (processes[i].left > 0){
-                        show("rr-ready-" + p, delay+1);                        
+                        show("rr-ready-" + p, delay+1);
+                        p_time += parseInt(rrtime(), 10);
+                        insert_ready_log(3, p, p_time, delay+1);
                     }
                     else{
-                        show("rr-terminated-" + p, delay+1);                        
+                        show("rr-terminated-" + p, delay+1);
+                        p_time += processes[i].length;
+                        insert_terminated_log(3, p, p_time, delay+1);
                         complete++;
                     }
                     delay = delay+2;
@@ -142,9 +204,9 @@
                 reset('.prio-ready', '.prio-action');
                 
                 var processes = [
-                    {name: "p1", priority: p1Prio()},
-                    {name: "p2", priority: p2Prio()},
-                    {name: "p3", priority: p3Prio()}
+                    {name: "p1", priority: p1Prio(), length: parseInt(p1Length(), 10)},
+                    {name: "p2", priority: p2Prio(), length: parseInt(p2Length(), 10)},
+                    {name: "p3", priority: p3Prio(), length: parseInt(p3Length(), 10)}
                 ];
 
                 // ordering by highest priority first
@@ -153,14 +215,18 @@
                 });
                 
                 var p;
+                var p_time = 0;
                 var delay = 1;
                 for (var i = 0; i < processes.length; i++) {
                     p = processes[i].name;
-                    
+
                     hide("prio-ready-" + p, delay);
                     show("prio-running-" + p, delay);
+                    insert_running_log(4, p, p_time, delay);
                     hide("prio-running-" + p, delay+1);
                     show("prio-terminated-" + p, delay+1);
+                    p_time += processes[i].length;
+                    insert_terminated_log(4, p, p_time, delay+1);
                     
                     delay = delay+2;
                 }
@@ -170,7 +236,10 @@
     </script>
 </head>
 <body class="container">
-    
+
+    <h1>CPU scheduling visualization</h1>
+    <h3>Please, enter scheduling parameters</h3>
+
     <div class="row">
         <label class="col-md-3">Process P1 length</label>
         <label class="col-md-3">Process P2 length</label>
@@ -193,126 +262,141 @@
         <div class="col-md-3"><input class="form-control" type="text" id="p2-prio" value="3"></div>
         <div class="col-md-3"><input class="form-control" type="text" id="p3-prio" value="1"></div>
     </div>
-    
-    <h1>First Come, First Served</h1>
-    <ul>
-        <li><h4 class="label label-info">Jobs are executed on first come, first serve basis</h4></li>
-        <li><h4 class="label label-success">Easy to understand and implement</h4></li>
-        <li><h4 class="label label-warning">Poor in performance as average wait time is high</h4></li>
-    </ul>
-    <button class="btn btn-default" id="run_fcfs">Show me</button>
-    <div class="row">
-        <div class="col-md-3">Ready</div>
-        <div class="col-md-3">Running</div>
-        <div class="col-md-3">Terminated</div>
-    </div>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="fcfs-ready process" id="fcfs-ready-p1">P1</div>
-            <div class="fcfs-ready process" id="fcfs-ready-p2">P2</div>
-            <div class="fcfs-ready process" id="fcfs-ready-p3">P3</div>
+
+    <div class="algorithm">
+        <h1>First Come, First Served</h1>
+        <ul>
+            <li><h4 class="label label-info">Jobs are executed on first come, first serve basis</h4></li>
+            <li><h4 class="label label-success">Easy to understand and implement</h4></li>
+            <li><h4 class="label label-warning">Poor in performance as average wait time is high</h4></li>
+        </ul>
+        <button class="btn btn-default" id="run_fcfs">Show me</button>
+        <div class="row" style="margin-top: 10px;">
+            <div class="col-md-3"><b>Ready</b></div>
+            <div class="col-md-3"><b>Running</b></div>
+            <div class="col-md-3"><b>Terminated</b></div>
+            <div class="col-md-3"><b>Process status</b></div>
         </div>
-        <div class="col-md-3">
-            <div class="fcfs-action process hidden" id="fcfs-running-p1">P1</div>
-            <div class="fcfs-action process hidden" id="fcfs-running-p2">P2</div>
-            <div class="fcfs-action process hidden" id="fcfs-running-p3">P3</div>
-        </div>
-        <div class="col-md-3">
-            <div class="fcfs-action process hidden" id="fcfs-terminated-p1">P1</div>
-            <div class="fcfs-action process hidden" id="fcfs-terminated-p2">P2</div>
-            <div class="fcfs-action process hidden" id="fcfs-terminated-p3">P3</div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="fcfs-ready process" id="fcfs-ready-p1">P1</div>
+                <div class="fcfs-ready process" id="fcfs-ready-p2">P2</div>
+                <div class="fcfs-ready process" id="fcfs-ready-p3">P3</div>
+            </div>
+            <div class="col-md-3">
+                <div class="fcfs-action process hidden" id="fcfs-running-p1">P1</div>
+                <div class="fcfs-action process hidden" id="fcfs-running-p2">P2</div>
+                <div class="fcfs-action process hidden" id="fcfs-running-p3">P3</div>
+            </div>
+            <div class="col-md-3">
+                <div class="fcfs-action process hidden" id="fcfs-terminated-p1">P1</div>
+                <div class="fcfs-action process hidden" id="fcfs-terminated-p2">P2</div>
+                <div class="fcfs-action process hidden" id="fcfs-terminated-p3">P3</div>
+            </div>
+            <div class="col-md-3" id="log1"></div>
         </div>
     </div>
 
-    <h1>Shortest Job First</h1>
-    <ul>
-        <li><h4 class="label label-success">Best approach to minimize waiting time</h4></li>
-        <li><h4 class="label label-info">Processer should know in advance how much time process will take - ...</h4></li>
-        <li><h4 class="label label-warning">... - can't really implement</h4></li>
-    </ul>
-    <button class="btn btn-default" id="run_sjf">Show me</button>
-    <div class="row">
-        <div class="col-md-3">Ready</div>
-        <div class="col-md-3">Running</div>
-        <div class="col-md-3">Terminated</div>
-    </div>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="sjf-ready process" id="sjf-ready-p1">P1</div>
-            <div class="sjf-ready process" id="sjf-ready-p2">P2</div>
-            <div class="sjf-ready process" id="sjf-ready-p3">P3</div>
+    <div class="algorithm">
+        <h1>Shortest Job First</h1>
+        <ul>
+            <li><h4 class="label label-success">Best approach to minimize waiting time</h4></li>
+            <li><h4 class="label label-info">Processer should know in advance how much time process will take - ...</h4></li>
+            <li><h4 class="label label-warning">... - can't really implement</h4></li>
+        </ul>
+        <button class="btn btn-default" id="run_sjf">Show me</button>
+        <div class="row" style="margin-top: 10px;">
+            <div class="col-md-3"><b>Ready</b></div>
+            <div class="col-md-3"><b>Running</b></div>
+            <div class="col-md-3"><b>Terminated</b></div>
+            <div class="col-md-3"><b>Process status</b></div>
         </div>
-        <div class="col-md-3">
-            <div class="sjf-action process hidden" id="sjf-running-p1">P1</div>
-            <div class="sjf-action process hidden" id="sjf-running-p2">P2</div>
-            <div class="sjf-action process hidden" id="sjf-running-p3">P3</div>
-        </div>
-        <div class="col-md-3">
-            <div class="sjf-action process hidden" id="sjf-terminated-p1">P1</div>
-            <div class="sjf-action process hidden" id="sjf-terminated-p2">P2</div>
-            <div class="sjf-action process hidden" id="sjf-terminated-p3">P3</div>
-        </div>
-    </div>
-    
-    <h1>Round Robin</h1>
-    <ul>
-        <li><h4 class="label label-info">Each process is provided a fix time to execute called quantum</h4></li>
-        <li><h4 class="label label-info">Once a process is executed for given time period. Process is preempted and other process executes for given time period</h4></li>
-        <li><h4 class="label label-info">Context switching is used to save states of preempted processes</h4></li>
-    </ul>
-    <button class="btn btn-default" id="run_rr">Show me</button>
-    <div class="row">
-        <div class="col-md-3">Ready</div>
-        <div class="col-md-3">Running</div>
-        <div class="col-md-3">Terminated</div>
-    </div>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="rr-ready process" id="rr-ready-p1">P1</div>
-            <div class="rr-ready process" id="rr-ready-p2">P2</div>
-            <div class="rr-ready process" id="rr-ready-p3">P3</div>
-        </div>
-        <div class="col-md-3">
-            <div class="rr-action process hidden" id="rr-running-p1">P1</div>
-            <div class="rr-action process hidden" id="rr-running-p2">P2</div>
-            <div class="rr-action process hidden" id="rr-running-p3">P3</div>
-        </div>
-        <div class="col-md-3">
-            <div class="rr-action process hidden" id="rr-terminated-p1">P1</div>
-            <div class="rr-action process hidden" id="rr-terminated-p2">P2</div>
-            <div class="rr-action process hidden" id="rr-terminated-p3">P3</div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="sjf-ready process" id="sjf-ready-p1">P1</div>
+                <div class="sjf-ready process" id="sjf-ready-p2">P2</div>
+                <div class="sjf-ready process" id="sjf-ready-p3">P3</div>
+            </div>
+            <div class="col-md-3">
+                <div class="sjf-action process hidden" id="sjf-running-p1">P1</div>
+                <div class="sjf-action process hidden" id="sjf-running-p2">P2</div>
+                <div class="sjf-action process hidden" id="sjf-running-p3">P3</div>
+            </div>
+            <div class="col-md-3">
+                <div class="sjf-action process hidden" id="sjf-terminated-p1">P1</div>
+                <div class="sjf-action process hidden" id="sjf-terminated-p2">P2</div>
+                <div class="sjf-action process hidden" id="sjf-terminated-p3">P3</div>
+            </div>
+            <div class="col-md-3" id="log2"></div>
         </div>
     </div>
-    
-    <h1>Priority</h1>
-    <ul>
-        <li><h4 class="label label-info">Each process is assigned a priority. Process with highest priority is to be executed first and so on</h4></li>
-        <li><h4 class="label label-info">Processes with same priority are executed on first come first serve basis</h4></li>
-        <li><h4 class="label label-info">Priority can be decided based on memory requirements, time requirements or any other resource requirement</h4></li>
-    </ul>
-    <button class="btn btn-default" id="run_prio">Show me</button>
-    <div class="row">
-        <div class="col-md-3">Ready</div>
-        <div class="col-md-3">Running</div>
-        <div class="col-md-3">Terminated</div>
+
+    <div class="algorithm">
+        <h1>Round Robin</h1>
+        <ul>
+            <li><h4 class="label label-info">Each process is provided a fix time to execute called quantum</h4></li>
+            <li><h4 class="label label-info">Once a process is executed for given time period. Process is preempted and other process executes for given time period</h4></li>
+            <li><h4 class="label label-info">Context switching is used to save states of preempted processes</h4></li>
+        </ul>
+        <button class="btn btn-default" id="run_rr">Show me</button>
+        <div class="row" style="margin-top: 10px;">
+            <div class="col-md-3"><b>Ready</b></div>
+            <div class="col-md-3"><b>Running</b></div>
+            <div class="col-md-3"><b>Terminated</b></div>
+            <div class="col-md-3"><b>Process status</b></div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="rr-ready process" id="rr-ready-p1">P1</div>
+                <div class="rr-ready process" id="rr-ready-p2">P2</div>
+                <div class="rr-ready process" id="rr-ready-p3">P3</div>
+            </div>
+            <div class="col-md-3">
+                <div class="rr-action process hidden" id="rr-running-p1">P1</div>
+                <div class="rr-action process hidden" id="rr-running-p2">P2</div>
+                <div class="rr-action process hidden" id="rr-running-p3">P3</div>
+            </div>
+            <div class="col-md-3">
+                <div class="rr-action process hidden" id="rr-terminated-p1">P1</div>
+                <div class="rr-action process hidden" id="rr-terminated-p2">P2</div>
+                <div class="rr-action process hidden" id="rr-terminated-p3">P3</div>
+            </div>
+            <div class="col-md-3" id="log3"></div>
+        </div>
     </div>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="prio-ready process" id="prio-ready-p1">P1</div>
-            <div class="prio-ready process" id="prio-ready-p2">P2</div>
-            <div class="prio-ready process" id="prio-ready-p3">P3</div>
+
+    <div class="algorithm">
+        <h1>Priority</h1>
+        <ul>
+            <li><h4 class="label label-info">Each process is assigned a priority. Process with highest priority is to be executed first and so on</h4></li>
+            <li><h4 class="label label-info">Processes with same priority are executed on first come first serve basis</h4></li>
+            <li><h4 class="label label-info">Priority can be decided based on memory requirements, time requirements or any other resource requirement</h4></li>
+        </ul>
+        <button class="btn btn-default" id="run_prio">Show me</button>
+        <div class="row" style="margin-top: 10px;">
+            <div class="col-md-3"><b>Ready</b></div>
+            <div class="col-md-3"><b>Running</b></div>
+            <div class="col-md-3"><b>Terminated</b></div>
+            <div class="col-md-3"><b>Process status</b></div>
         </div>
-        <div class="col-md-3">
-            <div class="prio-action process hidden" id="prio-running-p1">P1</div>
-            <div class="prio-action process hidden" id="prio-running-p2">P2</div>
-            <div class="prio-action process hidden" id="prio-running-p3">P3</div>
-        </div>
-        <div class="col-md-3">
-            <div class="prio-action process hidden" id="prio-terminated-p1">P1</div>
-            <div class="prio-action process hidden" id="prio-terminated-p2">P2</div>
-            <div class="prio-action process hidden" id="prio-terminated-p3">P3</div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="prio-ready process" id="prio-ready-p1">P1</div>
+                <div class="prio-ready process" id="prio-ready-p2">P2</div>
+                <div class="prio-ready process" id="prio-ready-p3">P3</div>
+            </div>
+            <div class="col-md-3">
+                <div class="prio-action process hidden" id="prio-running-p1">P1</div>
+                <div class="prio-action process hidden" id="prio-running-p2">P2</div>
+                <div class="prio-action process hidden" id="prio-running-p3">P3</div>
+            </div>
+            <div class="col-md-3">
+                <div class="prio-action process hidden" id="prio-terminated-p1">P1</div>
+                <div class="prio-action process hidden" id="prio-terminated-p2">P2</div>
+                <div class="prio-action process hidden" id="prio-terminated-p3">P3</div>
+            </div>
+            <div class="col-md-3" id="log4"></div>
         </div>
     </div>
-    
 </body>
 </html>
