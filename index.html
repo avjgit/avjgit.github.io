@@ -31,7 +31,16 @@
     </style>
     <script type="text/javascript">
         $(function(){
-            
+
+            $("input").blur(function() {
+                var value = $(this).val();
+                if(isNaN(value) || value < 0)
+                {
+                    alert('Please, enter 0 or a greater number!');
+                    $(this).val('1');
+                }
+            });
+
             function hide (elementId, delay) {
                 setTimeout(function(){
                     $("#"+elementId).removeClass("visible").addClass("hidden");
